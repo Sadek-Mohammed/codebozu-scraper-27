@@ -41,13 +41,17 @@ def parse_wiki_page(link):
                        'Birth Full Name': [president_dict['fname']],
                        'Date of Birth': [president_dict['dob']],
                        'Place of Birth': [president_dict['pob']],
-                       'Political Party': [president_dict['party']]})
+                       'Political Party': [president_dict['party']],
+                       'Day of Birth': [president_dict['day']],
+                       'Month of Birth': [president_dict['month']],
+                       'Children Number': [president_dict['numChild']]})
 
     df.to_csv('Politicians.csv', index=False)
 
 
 # -----------------------------util functions-----------------------------#
 def process_thtd(soup) -> None:
+    global children
     th_text = soup.find('th').text
     print(f"{th_text}: ")
 
@@ -58,6 +62,8 @@ def process_thtd(soup) -> None:
         born = True
     elif th_text == 'Political party':
         political = True
+    elif th_text == 'Children':
+        children = True
 
     for td in soup.find_all("td"):
         try:
@@ -70,6 +76,10 @@ def process_thtd(soup) -> None:
             if born:
                 president_dict['fname'] = ' '.join(td_str[0:3])
                 president_dict['dob'] = ' '.join(td_str[4:6])
+                i = president_dict['dob'].split(" ")
+                president_dict['month'] = i[0];
+                x = i[1].strip()
+                president_dict['day'] = int(x[0:-1])
                 president_dict['pob'] = ' '.join(td_str[8:-1])
             if political:
                 president_dict['party'] = td_str[0]
@@ -84,7 +94,10 @@ def process_bold(soup):
 
 
 def process_ul(soup):
-
+    global children
+    if children:
+        president_dict['numChild'] = len(soup.find("ul").find_all("li"))
+        children = False
     for ul in soup.find_all("ul"):
         for li in ul.find_all("li"):
             print(li.text)
@@ -98,6 +111,10 @@ if __name__ == '__main__':
                       'fname': '',
                       'dob': '',
                       'pob': '',
-                      'party': ''}
+                      'day': 0,
+                      'month': '',
+                      'party': '',
+                      'numChild': 0}
+    children = False
     parse_wiki_page("https://en.wikipedia.org/wiki/Donald_Trump")
     # call this function to parse any wiki link
