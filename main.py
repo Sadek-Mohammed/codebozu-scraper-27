@@ -44,7 +44,8 @@ def parse_wiki_page(link):
                        'Political Party': [president_dict['party']],
                        'Day of Birth': [president_dict['day']],
                        'Month of Birth': [president_dict['month']],
-                       'Children Number': [president_dict['numChild']]})
+                       'Children Number': [president_dict['numChild']],
+                       'Year of Birth': [president_dict['year']]})
 
     df.to_csv('Politicians.csv', index=False)
 
@@ -73,13 +74,23 @@ def process_thtd(soup) -> None:
 
         except AttributeError:
             td_str = td.text.split(" ")
+            print (td_str)
+            count = 0
+            date = ''
             if born:
+                for i in td_str:
+                    for x in i:
+                        if ':' > x > '/':
+                            count += 1
+                            date += x
+                    if count > 0:
+                        break
                 president_dict['fname'] = ' '.join(td_str[0:3])
-                president_dict['dob'] = ' '.join(td_str[4:6])
+                president_dict['dob'] = date
                 i = president_dict['dob'].split(" ")
-                president_dict['month'] = i[0];
-                x = i[1].strip()
-                president_dict['day'] = int(x[0:-1])
+                president_dict['year'] = date[0:4]
+                president_dict['month'] = date[4:6]
+                president_dict['day'] = date[6:8]
                 president_dict['pob'] = ' '.join(td_str[8:-1])
             if political:
                 president_dict['party'] = td_str[0]
@@ -111,10 +122,11 @@ if __name__ == '__main__':
                       'fname': '',
                       'dob': '',
                       'pob': '',
-                      'day': 0,
+                      'day': '0',
+                      'year':'0',
                       'month': '',
                       'party': '',
                       'numChild': 0}
     children = False
-    parse_wiki_page("https://en.wikipedia.org/wiki/Donald_Trump")
+    parse_wiki_page("https://en.wikipedia.org/wiki/Benjamin_Harrison")
     # call this function to parse any wiki link
