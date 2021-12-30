@@ -5,6 +5,7 @@ import pandas as pd
 import os
 import re
 import sys
+import time
 
 verbose = True  # enable/disable this for print statements
 
@@ -33,10 +34,13 @@ def parse_wiki_multiple(link: str) -> None:
 
     soup = bs4(html_text, 'html.parser')  # create soup instance
 
-    politicians = soup.find_all('div', attrs={'class': 'mw-content-ltr'})
+    politicians = soup.find('div', attrs={'class': 'mw-content-ltr'})
 
-    for div in politicians:
-        print(f"en.wikipedia.org{str(div.a['href'])}")
+    count = 0
+    for atag in politicians.find_all('a')[5:-1]:
+        parse_wiki_page(f"https://en.wikipedia.org{atag['href']}")
+        time.sleep(1)
+
 
 def parse_wiki_page(link: str) -> None:
     # sending a request to the website
@@ -82,7 +86,7 @@ def parse_wiki_page(link: str) -> None:
                        'Children Number': [president_dict['numChild']],
                        'Year of Birth': [president_dict['year']]})
 
-    df.to_csv('Politicians.csv', index=False)
+    df.to_csv('Politicians.csv', mode='a')
 
 
 # -----------------------------util functions-----------------------------#

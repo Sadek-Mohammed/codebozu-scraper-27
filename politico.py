@@ -1,7 +1,6 @@
-from math import floor
-
 from bs4 import BeautifulSoup as bs4
 from error import valid_response
+from math import floor
 import requests
 import pandas as pd
 
@@ -10,6 +9,7 @@ columns = ['Things', 'Move', 'Impact', 'Upshot']
 
 for i in range(0, 30):
     trumps.append([])
+
 
 def parse_trump(link):
     r = requests.get(link)
@@ -63,4 +63,6 @@ def parse_trump(link):
 
     for trump in trumps:
         print(trump)
+
+
 data = pd.DataFrame([], columns)
