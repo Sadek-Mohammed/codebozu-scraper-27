@@ -1,63 +1,23 @@
 from bs4 import BeautifulSoup as bs4
 import requests
+import pandas as pd
 
-def parse_wiki_page(link):
-    #sending a request to the website
-    r = requests.get(link)
-    print(r)
-    
-    #receiving response
-    if str(r) == "<Response [200]>":
-        print("Status 200 means successful response.\n")
-    else:
-        print("Unsuccessful response.\n")
+from utils import parse_wiki_multiple
+from politico import parse_trump
 
-    html_text = r.text
-    #print(html_text) would not recommend running this line
+if __name__ == '__main__':
+    parse_trump("https://www.politico.com/news/magazine/2021/01/18/trump-presidency-administration-biggest-impact-policy-analysis-451479")
 
-    soup = bs4(html_text, 'html.parser') #create soup instance
-
-    print(f"Title: {soup.find('h1').text}\n") #printing title
-
-    #print(soup.prettify()) or this line (it's 62,000 lines long)
-    
-    #get info table
-    info_table = soup.find("table", class_="infobox vcard").tbody
-
-    #loop through every row
-    for row in info_table.find_all("tr"):
-        if len(row.find_all("td")) > 0 and row.find("th") != None:
-            process_thtd(row)
-            continue
-        if len(row.find_all("td")) > 0 and row.find("td").b != None:
-            process_bold(row)
-            continue
-        print(f"{row.text}\n")
-
-#-----------------------------util functions-----------------------------#
-def process_thtd(soup):
-    print(f"{soup.find('th').text}: ")
-    for td in soup.find_all("td"):
-        try:
-            if td.ul.li.text == "":
-                raise AttributeError
-            process_ul(td)
-        
-        except AttributeError:
-            print(f"{td.text}\n")
-
-def process_bold(soup):
-    print(f"{soup.b.text}: ")
-    for td in soup.find_all("td"):
-            print(f"{td.text.replace(soup.b.text, '')}\n")
-
-def process_ul(soup):
-    for ul in soup.find_all("ul"):
-        for li in ul.find_all("li"):
-            print(li.text)
-    print("\n")
-#------------------------------------------------------------------------#
-
-
-parse_wiki_page("https://en.wikipedia.org/wiki/Donald_Trump")
-#call this function to parse any wiki link
+    # links = [
+    #     "https://en.wikipedia.org/wiki/Category:21st-century_presidents_of_the_United_States",
+    #     "https://en.wikipedia.org/wiki/Category:21st-century_vice_presidents_of_the_United_States",
+    #     "https://en.wikipedia.org/wiki/Category:20th-century_presidents_of_the_United_States",
+    #     "https://en.wikipedia.org/wiki/Category:20th-century_vice_presidents_of_the_United_States",
+    #     "https://en.wikipedia.org/wiki/Category:20th-century_vice_presidents_of_the_United_States",
+    #     "https://en.wikipedia.org/wiki/Category:19th-century_vice_presidents_of_the_United_States"
+    # ]
+    #
+    # # """
+    # for link in links:
+    #     parse_wiki_multiple(link)  # call this function to parse any wiki link
+    # """
