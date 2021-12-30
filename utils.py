@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup as bs4
+from error import valid_response
 import requests
 import pandas as pd
 import os
@@ -23,10 +24,6 @@ president_dict = {'Politician': '',
                   'party': '',
                   'numChild': 0}
 children = False
-
-
-def valid_response(r: requests.Response) -> bool:
-    return str(r) == "<Response [200]>"
 
 
 def parse_wiki_multiple(link: str) -> None:
