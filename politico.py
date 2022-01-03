@@ -10,6 +10,7 @@ import pandas as pd
 from error import valid_response
 # import the VADER sentiment analysis function from the sentiment.py file
 from sentiment import analyze_sent
+from tables import generate_data
 
 
 # add the trumps dictionary that will store data, where that dict part is suggested by pycharm.
@@ -150,4 +151,5 @@ def parse_trump(link):
     data = pd.DataFrame(trumps)
     # changing data frame to csv.
     data.to_csv("donald.csv", index=False)
-    print(analyze_sent(trumps['Impact'][0]))
+    # print(analyze_sent(trumps['Move'][0]))
+    generate_data(trumps)
