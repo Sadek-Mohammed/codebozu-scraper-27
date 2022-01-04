@@ -1,10 +1,17 @@
-from sentiment import analyze_sent
+# import the typing library for best practices in coding (suggested by pycharm
 from typing import Any
+# import the sentiment analysis function
+from sentiment import analyze_sent
+# import pandas for csv file writing
 import pandas as pd
 
+# add a dictionary for positivity index and another dictionary for the negativity index
 ratings_positive: dict[str, list[Any]] = {"Move": [], "Impact": [], "Upshot": []}
 ratings_negative: dict[str, list[Any]] = {"Move": [], "Impact": [], "Upshot": []}
+# add a dictionary for calculating the average of the positivity and negativity data for each column.
 avg = {'Move': 0, 'Impact': 0, 'Upshot': 0}
+
+# initializing the dictionaries with 30 columns
 for i in range(0, 30):
     ratings_positive['Move'].append([])
     ratings_positive['Impact'].append([])
@@ -14,6 +21,7 @@ for i in range(0, 30):
     ratings_negative['Upshot'].append([])
 
 
+# read the function
 def avg_calc(ratings):
     for counter in range(0, 30):
         for key in ratings.keys():

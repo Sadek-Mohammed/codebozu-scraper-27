@@ -6,10 +6,9 @@ from bs4 import BeautifulSoup as bs4
 import requests
 # import pandas for csv file writing
 import pandas as pd
-# import the response validating function from the error.py file
-from error import valid_response
-# import the VADER sentiment analysis function from the sentiment.py file
-from sentiment import analyze_sent
+# import the response validating function from the request.py file
+from request import fetch_link
+# import the needed library to generate the positivity and negativity values for analyzing the media preference
 from tables import generate_data
 
 
@@ -32,19 +31,9 @@ for i in range(0, 30):
 def parse_trump(link):
     # making the global variable accessible in the function
     global isMove
-    # fetching the link of the politico website
-    r = requests.get(link)
-    # checking that the website was valid through the validating response from error.py file
-    if valid_response(r):
-        print("It is a valid response")
-    else:
-        print("It is an invalid response")
-        # function will end if invalid
+    soup = fetch_link(link)
+    if soup is None:
         return
-    # getting the HTML text in a variable to be parsed.
-    html_text = r.text
-    # parsing the HTML markup
-    soup = bs4(html_text, 'html.parser')
     # searching for the headlines (titles) of the 30 things that trump made.
     things = soup.find_all('h3', attrs={'class': 'story-text__heading-medium'})
     # The counter variable is an indexer to add each title to the appropriate column
@@ -151,5 +140,5 @@ def parse_trump(link):
     data = pd.DataFrame(trumps)
     # changing data frame to csv.
     data.to_csv("donald.csv", index=False)
-    # print(analyze_sent(trumps['Move'][0]))
+    # Generate the positivity and negativity data
     generate_data(trumps)

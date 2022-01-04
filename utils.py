@@ -1,9 +1,8 @@
 from bs4 import BeautifulSoup as bs4
-from error import valid_response
+from request import fetch_link
 import requests
 import pandas as pd
 import os
-import re
 import sys
 import time
 
@@ -28,36 +27,19 @@ children = False
 
 
 def parse_wiki_multiple(link: str) -> None:
-    r = requests.get(link)
-
-    html_text = r.text
-
-    soup = bs4(html_text, 'html.parser')  # create soup instance
-
+    soup = fetch_link(link)
+    if soup is None:
+        return 
     politicians = soup.find('div', attrs={'class': 'mw-content-ltr'})
-
-    count = 0
-    for atag in politicians.find_all('a')[5:-1]:
-        parse_wiki_page(f"https://en.wikipedia.org{atag['href']}")
+    for a_tag in politicians.find_all('a')[5:-1]:
+        parse_wiki_page(f"https://en.wikipedia.org{a_tag['href']}")
         time.sleep(1)
 
 
 def parse_wiki_page(link: str) -> None:
-    # sending a request to the website
-    r = requests.get(link)
-    print(r)
-
-    # receiving response
-    if valid_response(r):
-        print("Status 200 means successful response.\n")
-    else:
-        print("Unsuccessful response.\n")
-
-    html_text = r.text
-    # print(html_text) would not recommend running this line
-
-    soup = bs4(html_text, 'html.parser')  # create soup instance
-
+    soup = fetch_link(link)
+    if soup is None:
+        return
     title = soup.find('h1').text
     print(f"Title: {title}\n")  # printing title
     president_dict['Politician'] = title
