@@ -139,6 +139,6 @@ def parse_trump(link):
     # Adding data to a Data frame
     data = pd.DataFrame(trumps)
     # changing data frame to csv.
-    data.to_csv("donald.csv", index=False)
+    data.to_csv("Insights/donald.csv", index=False)
     # Generate the positivity and negativity data
     generate_data(trumps)

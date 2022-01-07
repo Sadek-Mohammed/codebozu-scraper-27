@@ -51,5 +51,5 @@ def get_bbc_multi(link):
     # print(stories_trump)
     bbc_table = pd.DataFrame(stories_trump)
     # changing data frame to csv.
-    bbc_table.to_csv("bbc.csv", index=False)
+    bbc_table.to_csv("Insights/bbc.csv", index=False)
     print("positivity score of trump by bbc is " + str(round(avg_cal(stories_trump['pos']), 3)))

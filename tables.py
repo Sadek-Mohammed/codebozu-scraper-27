@@ -55,5 +55,5 @@ def generate_data(trumps):
     data_pos = pd.DataFrame(ratings_positive)
     data_neg = pd.DataFrame(ratings_negative)
     # changing data frame to csv.
-    data_pos.to_csv("pos.csv", index=False)
-    data_neg.to_csv("neg.csv", index=False)
+    data_pos.to_csv("Insights/pos.csv", index=False)
+    data_neg.to_csv("Insights/neg.csv", index=False)
