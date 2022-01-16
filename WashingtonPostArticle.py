@@ -4,7 +4,7 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 #creates the csv
 filename = "Insights/WashingtonPost.csv"
-headers = "Article Title, Article, pos\n"
+headers = "Article Title,Article,pos\n"
 #creates heacders for csv
 
 with open(filename, "w", encoding="utf-8") as f:
