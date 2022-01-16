@@ -5,7 +5,9 @@ from typing import Any
 import pandas as pd
 from sentiment import analyze_sent
 from request import fetch_link
-stories_trump: dict[str, list[Any]] = {"title": [], "story": [], "pos": []}
+
+stories_trump = {"title": [], "story": [], "pos": []}
+
 for one in range(0, 19):
     stories_trump['title'].append([])
     stories_trump['story'].append([])
@@ -19,6 +21,7 @@ def avg_cal(array):
         sum += ele
     sum /= count
     return sum
+
 
 def get_bbc_single(link):
     soup = fetch_link(link)
@@ -51,5 +54,5 @@ def get_bbc_multi(link):
     # print(stories_trump)
     bbc_table = pd.DataFrame(stories_trump)
     # changing data frame to csv.
-    bbc_table.to_csv("bbc.csv", index=False)
+    bbc_table.to_csv("Insights/bbc.csv", index=False)
     print("positivity score of trump by bbc is " + str(round(avg_cal(stories_trump['pos']), 3)))

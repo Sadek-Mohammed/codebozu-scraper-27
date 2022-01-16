@@ -13,7 +13,7 @@ from tables import generate_data
 
 
 # add the trumps dictionary that will store data, where that dict part is suggested by pycharm.
-trumps: dict[str, list[Any]] = {'Things': [], "Move": [], "Impact": [], "Upshot": []}
+trumps = {'Things': [], "Move": [], "Impact": [], "Upshot": []}
 # columns is the variable holding the names of the columns of the csv file.
 columns = ['Things', 'Move', 'Impact', 'Upshot']
 # The purpose of this variable is to ensure that multiple consecutive "The move" spans are dealt as a single column.
@@ -139,6 +139,6 @@ def parse_trump(link):
     # Adding data to a Data frame
     data = pd.DataFrame(trumps)
     # changing data frame to csv.
-    data.to_csv("donald.csv", index=False)
+    data.to_csv("Insights/donald.csv", index=False)
     # Generate the positivity and negativity data
     generate_data(trumps)
