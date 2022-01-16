@@ -6,14 +6,6 @@ import os
 import sys
 import time
 
-verbose = True  # enable/disable this for print statements
-
-# blocks print statements depending on the status of verbose
-if verbose:
-    sys.stdout = sys.__stdout__
-else:
-    sys.stdout = open(os.devnull, 'w')
-
 president_dict = {'Politician': '',
                   'fname': '',
                   'dob': '',

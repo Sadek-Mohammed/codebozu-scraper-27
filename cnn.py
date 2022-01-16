@@ -33,7 +33,7 @@ def analyze_article(url: str, politician: str, index: int) -> None:
         # story
         story = soup.find('div', attrs={'class', 'l-container'})
 
-        pos = analyze_sent(story.text)
+        pos = analyze_sent(story.text)['pos']*1000
 
         stories_dict[politician]['title'].append(title.text)
         stories_dict[politician]['story'].append(story.text)

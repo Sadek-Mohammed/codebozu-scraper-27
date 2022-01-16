@@ -6,8 +6,8 @@ from sentiment import analyze_sent
 import pandas as pd
 
 # add a dictionary for positivity index and another dictionary for the negativity index
-ratings_positive: dict[str, list[Any]] = {"Move": [], "Impact": [], "Upshot": []}
-ratings_negative: dict[str, list[Any]] = {"Move": [], "Impact": [], "Upshot": []}
+ratings_positive = {"Move": [], "Impact": [], "Upshot": []}
+ratings_negative = {"Move": [], "Impact": [], "Upshot": []}
 # add a dictionary for calculating the average of the positivity and negativity data for each column.
 avg = {'Move': 0, 'Impact': 0, 'Upshot': 0}
 
