@@ -46,7 +46,6 @@ def parse_wiki_page(link: str) -> None:
             process_thtd(row)
             continue
         if len(row.find_all("td")) > 0 and row.find("td").b is not None:
-            process_bold(row)
             continue
         print(f"{row.text}\n")
 
@@ -108,12 +107,6 @@ def process_thtd(soup) -> None:
             if political:
                 president_dict['party'] = td_str[0]
             print(f"{td.text}\n")
-
-
-def process_bold(soup):
-    print(f"{soup.b.text}: ")
-    for td in soup.find_all("td"):
-        print(f"{td.text.replace(soup.b.text, '')}\n")
 
 
 def process_ul(soup):
